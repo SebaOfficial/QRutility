@@ -24,7 +24,10 @@
     ]
   },
   "scripts": {
-    "bootstrap": "@php src/bootstrap.php",
+    "bootstrap": [
+      "composer update",
+      "@php src/bootstrap.php"
+    ],
     "test": "@php vendor/bin/pest --fail-on-warning --profile",
     "lint": "vendor/bin/php-cs-fixer fix ."
   },
