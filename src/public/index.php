@@ -1,4 +1,5 @@
 <?php
+
 use Bot\Helper;
 
 require_once dirname(__DIR__) . "/environment.php";
@@ -21,11 +22,11 @@ $locale = $i18n->load();
 
 if($msg = $locale->{$update->getTrigger()} ?? null) { // A command
     $bot->sendMessage($msg->text, $msg->keyboard ?? null);
-} else if($message = $update->getMessage()) {
+} elseif($message = $update->getMessage()) {
     if(isset($message->document) || isset($message->photo)) { // A qr code to be decoded
         $url = $bot->getFileUrl(($message->document ?? end($message->photo))->file_id);
         $bot->sendMessage(strtr($locale->qr_result->text, ['{{res}}' => (new Bot\QR($url))->read('resource')]));
-    } else if($txt = $message->text ?? $message->caption) { // A text to be encoded into a QR
+    } elseif($txt = $message->text ?? $message->caption) { // A text to be encoded into a QR
         $qr = new Bot\QR(Bot\Helper::getRandomFilePath('qr'));
         $bot->sendDocument($qr->generate($txt), 'qr.png');
         $qr->unlink();

@@ -46,7 +46,8 @@ class QR
         return (new QrReader($this->path))->text();
     }
 
-    public function getPath(): string {
+    public function getPath(): string
+    {
         return $this->path;
     }
 

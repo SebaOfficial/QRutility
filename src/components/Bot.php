@@ -23,9 +23,9 @@ class Bot extends \TelegramSDK\BotAPI\Telegram\Bot
         return self::$instances[$token][$replyWithPayload];
     }
 
-    public function bootstrap(string $webhookEnpoint, string $telegramSecret, bool $dropPendingUpdates)
+    public function bootstrap(string $webhookEnpoint, string $telegramSecret, bool $dropPendingUpdates): TelegramResponse
     {
-        parent::setWebhook([
+        return parent::setWebhook([
             "url" => $webhookEnpoint,
             "drop_pending_updates" => $dropPendingUpdates,
             "allowed_updates" => [
@@ -53,7 +53,7 @@ class Bot extends \TelegramSDK\BotAPI\Telegram\Bot
     public function sendMessage(string $text, ?array $keyboard = null, int|string|null $chatID = null): ?TelegramResponse
     {
         $chatID = $chatID ?? $this->update->getChat()->id;
-        
+
         return parent::replyAsPayload("sendMessage", Helper::arrayFilter([
             'chat_id' => $chatID,
             'text' => $text,
@@ -62,7 +62,8 @@ class Bot extends \TelegramSDK\BotAPI\Telegram\Bot
         ]));
     }
 
-    public function sendDocument(string $path, string $fileName, ?string $caption = null, int|string|null $chatID = null) {
+    public function sendDocument(string $path, string $fileName, ?string $caption = null, int|string|null $chatID = null): TelegramResponse
+    {
         $chatID = $chatID ?? $this->update->getChat()->id;
 
         return parent::sendRequest("sendDocument", [
@@ -83,7 +84,8 @@ class Bot extends \TelegramSDK\BotAPI\Telegram\Bot
     }
 
 
-    public function getFileUrl(string $id): string {
+    public function getFileUrl(string $id): string
+    {
         return parent::getApiUrl() . 'file/bot' . $this->token . "/" . parent::sendRequest('getFile', [
             'file_id' => $id,
         ])->body->result->file_path;
