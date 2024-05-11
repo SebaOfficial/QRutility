@@ -7,6 +7,7 @@ $bot = Bot\Bot::make($_ENV['BOT_TOKEN']);
 $update = $bot->updates();
 
 if(!$update->isFromTelegram($_ENV['TELEGRAM_SECRET'])) {
+    $bot->asPayload(false);
     header("Location: https://t.me/" . $bot->getMe()->body->result->username, true);
     exit;
 }
