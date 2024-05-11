@@ -1,0 +1,20 @@
+{
+  "/start": {
+    "text": "<b>👋 Ciao {{mention}}!</b>\nQuesto bot ti permette di creare e leggere codici QR.",
+    "keyboard": [
+      [
+        {
+          "text": "🆘 Aiuto",
+          "url": "https://t.me/SebaBot"
+        },
+        {
+          "text": "🧑‍💻 Developer",
+          "url": "https://t.me/+VM3DGr35AOdmMzY0"
+        }
+      ]
+    ]
+  },
+  "qr_result": {
+    "text": "<b>📝 Test estratto</b>: {{res}}"
+  }
+}

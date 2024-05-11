@@ -1,0 +1,50 @@
+{
+  "name": "seba/qrutilitybot",
+  "description": "Telegram bot for generating and reading QR codes",
+  "keywords": [
+    "telegram",
+    "bot",
+    "QR",
+    "QRCodes"
+  ],
+  "homepage": "https://github.com/SebaOfficial/QRutilityBot",
+  "authors": [
+    {
+      "name": "Sebastiano Racca",
+      "email": "sebastiano@racca.me",
+      "role": "Developer",
+      "homepage": "https://github.com/SebaOfficial"
+    }
+  ],
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  },
+  "scripts": {
+    "bootstrap": "@php src/bootstrap.php",
+    "test": "@php vendor/bin/pest --fail-on-warning --profile",
+    "lint": "vendor/bin/php-cs-fixer fix ."
+  },
+  "require": {
+    "php": ">=8.0",
+    "endroid/qr-code": "^5.0",
+    "khanamiryan/qrcode-detector-decoder": "^2.0",
+    "telegramsdk/botapi": "^2.1",
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.46",
+    "pestphp/pest": "^2.34"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    },
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  }
+}
