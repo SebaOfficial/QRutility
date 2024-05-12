@@ -25,10 +25,33 @@ if($msg = $locale->{$update->getTrigger()} ?? null) { // A command
 } elseif($message = $update->getMessage()) {
     if(isset($message->document) || isset($message->photo)) { // A qr code to be decoded
         $url = $bot->getFileUrl(($message->document ?? end($message->photo))->file_id);
-        $bot->sendMessage(strtr($locale->qr_result->text, ['{{res}}' => (new Bot\QR($url))->read('resource')]));
-    } elseif($txt = $message->text ?? $message->caption) { // A text to be encoded into a QR
+        $bot->sendMessage(strtr($locale->qr_result->extracted, ['{{res}}' => (new Bot\QR($url))->read('resource')]));
+    } elseif($txt = $message->text ?? $message->caption ?? null) { // A text to be encoded into a QR
         $qr = new Bot\QR(Bot\Helper::getRandomFilePath('qr'));
-        $bot->sendDocument($qr->generate($txt), 'qr.png');
-        $qr->unlink();
+        $isPrivateChat = $update->getChat()->type == 'private';
+
+        if(!$isPrivateChat) { // In public chats the bot expects "/qr ..."
+            $txt = preg_match('/[\/\.]qr\s+(\S+)/', $txt, $matches) ? $matches[1] : null;
+        }
+
+        if(isset($txt)) {
+            $bot->sendDocument(
+                $qr->generate($txt),
+                'qr.png',
+                strtr($locale->qr_result->generated, ["{{txt}}" => $txt]),
+                replyParameters: !$isPrivateChat ? [
+                    'message_id' => $update->getMessage()->message_id
+                ] : null
+            );
+
+            $qr->unlink();
+
+            if($isPrivateChat) {
+                $bot->deleteMessage([
+                    'chat_id' => $update->getChat()->id,
+                    'message_id' => $update->getMessage()->message_id,
+                ]);
+            }
+        }
     }
 }

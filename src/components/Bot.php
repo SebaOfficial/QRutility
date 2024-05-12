@@ -54,19 +54,19 @@ class Bot extends \TelegramSDK\BotAPI\Telegram\Bot
     {
         $chatID = $chatID ?? $this->update->getChat()->id;
 
-        return parent::{$asPayload ? 'replyAsPayload' : 'sendRequest'}('sendMessage', [
+        return parent::{$asPayload ? 'replyAsPayload' : 'sendRequest'}('sendMessage', Helper::arrayFilter([
             'chat_id' => $chatID,
             'text' => $text,
             'parse_mode' => "HTML",
             'reply_markup' => isset($keyboard) ? ['inline_keyboard' => $keyboard] : null,
-        ]);
+        ]));
     }
 
-    public function sendDocument(string $path, string $fileName, ?string $caption = null, int|string|null $chatID = null): TelegramResponse
+    public function sendDocument(string $path, string $fileName, ?string $caption = null, int|string|null $chatID = null, object|array|null $replyParameters = null): TelegramResponse
     {
         $chatID = $chatID ?? $this->update->getChat()->id;
 
-        return parent::sendRequest("sendDocument", [
+        return parent::sendRequest("sendDocument", Helper::arrayFilter([
             [
                 'name' => 'chat_id',
                 'contents' => $chatID,
@@ -84,7 +84,11 @@ class Bot extends \TelegramSDK\BotAPI\Telegram\Bot
                 'name' => 'caption',
                 'contents' => $caption,
             ] : null,
-        ], multipart: true);
+            isset($replyParameters) ? [
+                'name' => 'reply_parameters',
+                'contents' => json_encode($replyParameters),
+            ] : null,
+        ]), multipart: true);
     }
 
 
