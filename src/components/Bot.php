@@ -50,16 +50,16 @@ class Bot extends \TelegramSDK\BotAPI\Telegram\Bot
         return $this->updates()->getUser()->language_code ?? $fallback;
     }
 
-    public function sendMessage(string $text, ?array $keyboard = null, int|string|null $chatID = null): ?TelegramResponse
+    public function sendMessage(string $text, ?array $keyboard = null, int|string|null $chatID = null, bool $asPayload = true): ?TelegramResponse
     {
         $chatID = $chatID ?? $this->update->getChat()->id;
 
-        return parent::replyAsPayload("sendMessage", Helper::arrayFilter([
+        return parent::{$asPayload ? 'replyAsPayload' : 'sendRequest'}('sendMessage', [
             'chat_id' => $chatID,
             'text' => $text,
             'parse_mode' => "HTML",
             'reply_markup' => isset($keyboard) ? ['inline_keyboard' => $keyboard] : null,
-        ]));
+        ]);
     }
 
     public function sendDocument(string $path, string $fileName, ?string $caption = null, int|string|null $chatID = null): TelegramResponse
@@ -75,6 +75,10 @@ class Bot extends \TelegramSDK\BotAPI\Telegram\Bot
                 'name' => 'document',
                 'contents' => file_get_contents($path),
                 'filename' => $fileName,
+            ],
+            [
+                'name' => 'parse_mode',
+                'contents' => 'HTML',
             ],
             isset($caption) ? [
                 'name' => 'caption',
