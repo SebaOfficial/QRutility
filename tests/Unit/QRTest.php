@@ -7,11 +7,10 @@ define("QR_PATH", Helper::getRandomFilePath('qr'));
 define("QR_TEXT", "Hello World");
 
 it("creates a QR Code as CURLFile", function () {
-    $file = (new QR(QR_PATH))->generate(QR_TEXT);
+    $path = (new QR(QR_PATH))->generate(QR_TEXT);
 
-    $this->assertInstanceOf('CURLFile', $file);
-    $this->assertTrue(file_exists($file->getFilename()));
-    $this->assertTrue(is_readable($file->getFilename()));
+    $this->assertTrue(file_exists($path));
+    $this->assertTrue(is_readable($path));
 });
 
 it("reads a QR code", function () {
