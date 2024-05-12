@@ -1,6 +1,6 @@
 {
   "/start": {
-    "text": "<b>👋 Ciao {{mention}}!</b>\nQuesto bot ti permette di creare e leggere codici QR.",
+    "text": "<b>👋 Ciao {{mention}}!</b>\nQuesto bot ti permette di creare e leggere codici QR.\n\nInvia il codice QR per estrarne il testo o un messagio per trasformarlo in QR.",
     "keyboard": [
       [
         {

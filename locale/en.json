@@ -1,6 +1,6 @@
 {
   "/start": {
-    "text": "<b>👋 Hi {{mention}}!</b>\nThis bot lets you generate and read QR codes.",
+    "text": "<b>👋 Hi {{mention}}!</b>\n<i>This bot lets you generate and read QR codes</i>\n\nJust send the QR code to extract the text or a message to encode it.",
     "keyboard": [
       [
         {
